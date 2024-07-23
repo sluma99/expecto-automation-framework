@@ -1,0 +1,8 @@
+# testing
+playwright/.auth
+test-results
+package-lock.json
+node_modules/
+playwright-report/
+logs/
+idea/
