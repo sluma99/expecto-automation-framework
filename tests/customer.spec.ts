@@ -78,7 +78,7 @@ test.describe("Customer", () => {
         });
     })
 
-    test.only("C- 211 Delete and Edit existing customer as Read-Only", async ({ customerPage, editCustomerPopup }) => {
+    test("C- 211 Delete and Edit existing customer as Read-Only", async ({ customerPage, editCustomerPopup }) => {
         const item = await customerPage.getItemByIndex(0);
         await test.expect(item.deleteBtn).not.toBeVisible();
         await test.expect(item.editBtn).not.toBeVisible();
