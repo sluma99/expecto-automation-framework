@@ -22,7 +22,12 @@ jobs:
           node-version: 21
 
       - name: Install dependencies
-        run: npm ci --force
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --force
+          else
+            npm install --force
+          fi
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps --force
