@@ -28,11 +28,12 @@ export class CustomerPage {
     }
 
     async getRowByText(text: string): Promise<CustomerItem | null> {
+        await this.delay(15000)
         const rows = this.customerItems;
 
         for (let i = 0; i < await rows.count(); i++) {
             const row = rows.nth(i);
-            await row.scrollIntoViewIfNeeded()
+            await row.scrollIntoViewIfNeeded();
             const rowText = await row.textContent();
 
             if (rowText && rowText.includes(text)) {
@@ -41,6 +42,12 @@ export class CustomerPage {
         }
 
         return null;
+    }
+
+    async isCustomerNameExists(name: string): Promise<boolean> {
+        await this.delay(15000)
+        const customerRow = await this.getRowByText(name);
+        return customerRow !== null;
     }
 
     async clickOnTheAddBtn() {
@@ -79,14 +86,19 @@ export class CustomerPage {
     }
 
     async getCustomerNames() {
+        await this.delay(10000)
         const customerItems = await this.getItems();
 
         return Promise.all(customerItems.map(item => item.getData().then(data => data.customer)));
     }
 
     async doesCustomerExist(customerName: string) {
-        await this.page.waitForTimeout(2000)
+        await this.delay(10000)
         const customerNames = await this.getCustomerNames();
         return customerNames.includes(customerName);
+    }
+
+    async delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
