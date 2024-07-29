@@ -36,7 +36,7 @@ test.describe("Customer", () => {
 
 
     roles.forEach(role => {
-        test.only(`Create new Customer as ${role}`, async ({ page,customerPage }) => {
+        test(`Create new Customer as ${role}`, async ({ page,customerPage }) => {
             const data = customerName.build();
             const nameCustomer = data.name;
 
