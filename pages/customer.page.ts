@@ -5,53 +5,23 @@ import {DeleteCustomerPopup} from "../fragments/delete.customer.popup";
 
 export class CustomerPage {
     constructor(
-        private readonly page: Page,
-
+        protected readonly page: Page,
         private readonly addCustomer: AddCustomer = new AddCustomer(page),
+
         private readonly deleteCustomerPopUp: DeleteCustomerPopup = new DeleteCustomerPopup(page),
         private readonly addBtn = page.locator(`div[class='header styles_header__4OpzI'] button:nth-child(1)`),
-        private readonly customerItems = page.locator('tbody tr'),
-    ) {
-    }
-
-    async getItemByIndex(index: number, customer?: string) {
-        await this.page.waitForTimeout(2000)
-        if (customer) await this.customerItems.nth(index).getByText(customer).first().isVisible()
-
-        return new CustomerItem(this.customerItems.nth(index))
-    }
-
-    async getItems() {
-        await this.page.waitForTimeout(2000);
-        return [...await this.customerItems.all()]
-            .map(it => new CustomerItem(it))
-    }
-
-    async getRowByText(text: string): Promise<CustomerItem | null> {
-        await this.delay(15000)
-        const rows = this.customerItems;
-
-        for (let i = 0; i < await rows.count(); i++) {
-            const row = rows.nth(i);
-            await row.scrollIntoViewIfNeeded();
-            const rowText = await row.textContent();
-
-            if (rowText && rowText.includes(text)) {
-                return new CustomerItem(row);
-            }
-        }
-
-        return null;
-    }
+        private readonly tableItems = page.locator('tbody tr'),
+    ) {}
 
     async isCustomerNameExists(name: string): Promise<boolean> {
-        await this.delay(15000)
+        // await this.delay(15000)
         const customerRow = await this.getRowByText(name);
         return customerRow !== null;
     }
 
     async clickOnTheAddBtn() {
         return await test.step('I click on Add button', async () => {
+            await this.page.waitForTimeout(5000)
             await this.addBtn.isVisible()
             await this.addBtn.click()
         })
@@ -93,9 +63,38 @@ export class CustomerPage {
     }
 
     async doesCustomerExist(customerName: string) {
-        await this.delay(10000)
         const customerNames = await this.getCustomerNames();
         return customerNames.includes(customerName);
+    }
+
+    async getItemByIndex(index: number, tableItemText?: string) {
+        await this.page.waitForTimeout(2000)
+        if (tableItemText) await this.tableItems.nth(index).getByText(tableItemText).first().isVisible()
+
+        return new CustomerItem(this.tableItems.nth(index))
+    }
+
+    async getItems() {
+        await this.delay(2000);
+        return [...await this.tableItems.all()]
+            .map(it => new CustomerItem(it))
+    }
+
+    async getRowByText(text: string): Promise<CustomerItem> {
+        await this.delay(4000)
+        const rows = this.tableItems;
+
+        for (let i = 0; i < await rows.count(); i++) {
+            const row = rows.nth(i);
+            await row.scrollIntoViewIfNeeded();
+            const rowText = await row.textContent();
+
+            if (rowText && rowText.includes(text)) {
+                return new CustomerItem(row);
+            }
+        }
+
+        return null;
     }
 
     async delay(ms: number) {

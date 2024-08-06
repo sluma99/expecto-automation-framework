@@ -4,21 +4,21 @@ export class DeleteAccountPopup {
     constructor(
         private readonly page: Page,
 
-        private readonly deleteBtn = page.locator(`(//button[@type='button'])[12]`),
-        private readonly yesBtn = page.locator(`//button[@data-color='danger']`)
+        private readonly noBtn = page.locator(`.styles_actions__zvPPS button:nth-child(1)`),
+        private readonly yesBtn = page.locator(`.styles_actions__zvPPS button:nth-child(2)`)
     ) {}
-
-    async clickOnTheDeleteBtn() {
-        await test.step('I click on the Delete button in delete popup', async () => {
-            await this.deleteBtn.isVisible();
-            await this.deleteBtn.click();
-        });
-    }
 
     async clickOnTheYesBtn() {
         await test.step('I click on the Yes button in delete popup', async () => {
             await this.yesBtn.isVisible();
             await this.yesBtn.click();
+        });
+    }
+
+    async clickOnTheNoBtn() {
+        await test.step('I click on the No button in delete popup', async () => {
+            await this.noBtn.isVisible();
+            await this.noBtn.click();
         });
     }
 }

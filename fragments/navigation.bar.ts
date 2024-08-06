@@ -7,6 +7,7 @@ export class NavigationBar {
 
         private readonly customerBtn = page.getByRole('link', {name: `Customers`, exact: true}),
         private readonly accountBtn = page.getByRole('link', {name: `Accounts`, exact: true}),
+        private readonly profilesBtn = page.getByRole('link', {name: `Profiles`, exact: true}),
     ) {}
 
     async clickOnTheCustomerBtn() {
@@ -20,6 +21,13 @@ export class NavigationBar {
         await test.step('I click in nav on settings button', async () => {
             await this.accountBtn.isVisible()
             await this.accountBtn.click()
+        })
+    }
+
+    async clickOnTheProfilesBtn() {
+        await test.step('I click in nav on profiles button', async () => {
+            await this.profilesBtn.isVisible()
+            await this.profilesBtn.click()
         })
     }
 }

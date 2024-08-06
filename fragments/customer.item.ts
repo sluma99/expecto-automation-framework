@@ -1,7 +1,6 @@
-import {Locator} from "@playwright/test";
+import { Locator } from "@playwright/test";
 
 export class CustomerItem {
-
     constructor(
         public readonly element: Locator,
 
@@ -24,6 +23,6 @@ export class CustomerItem {
     }
 
     async click() {
-        await this.element.click()
+        await this.element.click();
     }
 }

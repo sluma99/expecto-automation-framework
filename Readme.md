@@ -131,10 +131,10 @@ import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { NavigationBar } from '../bars/navigation.bar';
 import { AccountPage } from '../pages/account.page';
-import { AddAccountPopup } from '../pages/popups/add.account.popup';
+import { AccountPopup } from '../pages/popups/add.account.popup';
 import { DeleteAccountPopup } from '../pages/popups/delete.popup';
 
-export const test = base.extend<{ loginPage: LoginPage, navigationBar: NavigationBar, accountPage: AccountPage, addAccountPopup: AddAccountPopup, deletePopup: DeleteAccountPopup }>({
+export const test = base.extend<{ loginPage: LoginPage, navigationBar: NavigationBar, accountPage: AccountPage, addAccountPopup: AccountPopup, deletePopup: DeleteAccountPopup }>({
     loginPage: async ({ page }, use) => {
         await use(new LoginPage(page));
     },
@@ -145,7 +145,7 @@ export const test = base.extend<{ loginPage: LoginPage, navigationBar: Navigatio
         await use(new AccountPage(page));
     },
     addAccountPopup: async ({ page }, use) => {
-        await use(new AddAccountPopup(page));
+        await use(new AccountPopup(page));
     },
     deletePopup: async ({ page }, use) => {
         await use(new DeleteAccountPopup(page));

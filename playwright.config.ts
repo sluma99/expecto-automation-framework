@@ -9,7 +9,7 @@ const config: PlaywrightTestConfig = {
     fullyParallel: true,
     forbidOnly: !!process.env.CI,  // Prevent 'test.only' in CI environments
     retries: process.env.CI ? 2 : 0,  // Retry failed tests in CI
-    workers: 3, // Run up to three tests simultaneously
+    workers: 10, // Run up to three tests simultaneously
     reporter: [['html', { outputFolder: 'playwright-report' }]],
     headless: true,
     expect: {

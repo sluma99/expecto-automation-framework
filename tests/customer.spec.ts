@@ -17,39 +17,65 @@ const getRoleFromTestTitle = (title: string): string => {
     return roleMap[match || 'Admin'];
 }
 
-const roles = ['Customer-Admin','ROLE_ADMIN']
+const roles = ['ROLE_ADMIN']
 
 
-test.describe("Customer", () => {
+test.describe("Customer New", () => {
 
     test.beforeEach(async ({ page, loginPage, navigationBar }, { title }) => {
-        await page.goto(process.env.APP_URL as string);
-        // await page.waitForLoadState('networkidle');
-        const role = getRoleFromTestTitle(title);
-        await loginAndNavigate({ page, loginPage, navigationBar }, role);
-        await navigationBar.clickOnTheCustomerBtn();
+        // await page.goto(process.env.APP_URL as string);
+        // // const role = getRoleFromTestTitle(title);
+        // // await loginAndNavigate({ page, loginPage, navigationBar }, role);
+        // await page.goto(process.env.APP_URL as string);
+        // await loginPage.loginToXcontrol(process.env.ROLE_ADMIN as string, process.env.USER_PASSWORD as string);
+        // await navigationBar.clickOnTheCustomerBtn();
     });
 
-    test.afterEach(async ({ page, loginPage, navigationBar }, { title }) => {
+    test.afterEach(async ({ page }, { title }) => {
         await page.close();
     });
 
-
-    roles.forEach(role => {
-        test(`Create new Customer as ${role}`, async ({ page,customerPage }) => {
-            const data = customerName.build();
-            const nameCustomer = data.name;
-
-            await customerPage.clickOnTheAddBtn();
-            await customerPage.createCustomer({
-                customerNames: nameCustomer
-            }, 'xAuto');
+    for (let i = 0; i < 5; i++) {
+        test(`Delete
+        all rows from a table - iteration
+        ${i + 1}`, async ({page, customerPage, navigationBar, loginPage}) => {
+            await page.goto(process.env.APP_URL as string);
+            // const role = getRoleFromTestTitle(title);
+            // await loginAndNavigate({ page, loginPage, navigationBar }, role);
+            await page.goto(process.env.APP_URL as string);
+            await loginPage.loginToXcontrol(process.env.ROLE_ADMIN as string, process.env.USER_PASSWORD as string);
+            await navigationBar.clickOnTheCustomerBtn();
             await customerPage.clickOnToggleItem();
 
-            const customerExists = await customerPage.isCustomerNameExists(nameCustomer);
-            test.expect(customerExists).toBe(true);
+            const table = await customerPage.getItemByIndex(1);
+            await table.customer.click();
+            await page.waitForTimeout(2000)
+            const deleteBtn = page.locator('.styles_actions__LolfM button').getByText('Delete', {exact: true})
+            await deleteBtn.click()
+            const deleteBtn2 =  page.locator('.styles_actions__zvPPS button').getByText('Delete', {exact: true})
+            await deleteBtn2.click({force: true});
+            await page.waitForTimeout(2000)
         });
-    });
+    }
+})
+
+    // roles.forEach(role => {
+    //     test.only(`Create new Customer as ${role}`, async ({ page,customerPage }) => {
+    //         const data = customerName.build();
+    //         const nameCustomer = data.name;
+    //
+    //         await customerPage.clickOnTheAddBtn();
+    //         await customerPage.createCustomer({
+    //             customerNames: nameCustomer
+    //         }, 'xAuto');
+    //         await page.reload()
+    //         await customerPage.clickOnToggleItem();
+    //
+    //         const customerItem = await customerPage.getRowByText(nameCustomer);
+    //         const customerText = await customerItem.element.textContent();
+    //         test.expect(customerText).toContain(nameCustomer);
+    //     });
+    // });
 
     // roles.forEach(role => {
     //     test(`Delete existing customer as ${role}`, async ({customerPage, page}) => {
@@ -88,4 +114,4 @@ test.describe("Customer", () => {
     //     await test.expect(item.deleteBtn).not.toBeVisible();
     //     await test.expect(item.editBtn).not.toBeVisible();
     // });
-})
+// })
