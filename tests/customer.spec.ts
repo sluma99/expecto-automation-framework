@@ -35,7 +35,7 @@ test.describe("Customer New", () => {
         await page.close();
     });
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 100; i++) {
         test(`Delete
         all rows from a table - iteration
         ${i + 1}`, async ({page, customerPage, navigationBar, loginPage}) => {
